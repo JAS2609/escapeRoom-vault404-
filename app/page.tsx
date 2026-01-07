@@ -491,7 +491,7 @@ const EscapeRoom = () => {
     glow: 'rgba(239, 68, 68, 0.2)',
     text: 'text-red-400',
     bgPattern: '%23ef4444',
-    laserColor: '#10b981',
+    laserColor: '%23ef4444',
     accentColor: 'red',
   } : colorScheme === 'green' ? {
     gradient: 'from-slate-950 via-slate-900 to-emerald-950',
@@ -500,7 +500,7 @@ const EscapeRoom = () => {
     glow: 'rgba(16, 185, 129, 0.2)',
     text: 'text-emerald-400',
     bgPattern: '%2310b981',
-    laserColor: '#fbbf24',
+    laserColor: '%2310b981',
     accentColor: 'emerald',
   } : {
     gradient: 'from-slate-950 via-amber-950 to-yellow-950',
@@ -509,7 +509,7 @@ const EscapeRoom = () => {
     glow: 'rgba(251, 191, 36, 0.3)',
     text: 'text-amber-400',
     bgPattern: '%23fbbf24',
-    laserColor: '#3b82f6',
+    laserColor: '%23fbbf24',
     accentColor: 'amber',
   };
 
