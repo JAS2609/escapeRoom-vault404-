@@ -135,7 +135,7 @@ return (
       </div>
 
       <p className="text-amber-300 text-xs text-center italic">
-        Click on the right image where you spot a difference
+        Click on the image where you spot a difference
       </p>
     </div>
     );

@@ -154,10 +154,10 @@ const scenes = [
   {
     id: 1,
     title: "Digital Vault 404",
-    image: "/Scene1.1.png",
+    image: "/scene1.2.png",
     story: " Someone has locked a memory here for you.",
     description: "",
-    buttonText: "Continue",
+    buttonText: "Start Journey",
     dialogText: null,
     layout: "start",
     isUnlock: false,
@@ -193,7 +193,7 @@ const scenes = [
   {
     id: 4,
     title: "Path Revealed",
-    image: "/Scene4.png",
+    image: "/Scene4.1.png",
     story: "Pattern accepted. The vault responds to smart people.",
     description: "",
     buttonText: "Continue",
@@ -232,7 +232,7 @@ const scenes = [
   {
     id: 7,
     title: "Quiet Walk",
-    image: "/Scene7.png",
+    image: "/Scene7.1.png",
     story: "The vault no longer tests your speed. It watches how you move forward.",
     description: "",
     buttonText: "Walk Forward",
@@ -468,7 +468,7 @@ const EscapeRoom = () => {
   };
 
   if (currentSceneIndex === 4) triggerLaser('red');
-  if (currentSceneIndex === 5) triggerLaser('green');
+  if (currentSceneIndex === 6) triggerLaser('green');
   if (currentSceneIndex === 9) triggerLaser('golden');
 
 }, [currentSceneIndex]);
@@ -491,7 +491,7 @@ const EscapeRoom = () => {
     glow: 'rgba(239, 68, 68, 0.2)',
     text: 'text-red-400',
     bgPattern: '%23ef4444',
-    laserColor: '%23ef4444',
+    laserColor: '#ef4444',
     accentColor: 'red',
   } : colorScheme === 'green' ? {
     gradient: 'from-slate-950 via-slate-900 to-emerald-950',
@@ -500,7 +500,7 @@ const EscapeRoom = () => {
     glow: 'rgba(16, 185, 129, 0.2)',
     text: 'text-emerald-400',
     bgPattern: '%2310b981',
-    laserColor: '%2310b981',
+    laserColor: '#10b981',
     accentColor: 'emerald',
   } : {
     gradient: 'from-slate-950 via-amber-950 to-yellow-950',
@@ -509,7 +509,7 @@ const EscapeRoom = () => {
     glow: 'rgba(251, 191, 36, 0.3)',
     text: 'text-amber-400',
     bgPattern: '%23fbbf24',
-    laserColor: '%23fbbf24',
+    laserColor: '#fbbf24',
     accentColor: 'amber',
   };
 
@@ -814,97 +814,103 @@ const EscapeRoom = () => {
               </div>
             ) : (
               <>
-                <div className="relative h-100 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/70 z-10" />
+                <div className="relative min-h-[700px] overflow-hidden">
+               
                   <img 
                     src={currentScene.image} 
                     alt={currentScene.title}
-                    className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-1000 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-1000 ease-out"
                   />
+                  
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
 
-                  <div className="absolute top-6 left-6 right-6 z-20">
-                    <div className={`bg-black/70 backdrop-blur-md rounded-2xl px-6 py-3 border-2 ${colors.border} shadow-xl transition-all duration-1000`}>
-                      <h2 className={`text-3xl font-bold ${colors.text} text-center tracking-wide drop-shadow-lg transition-all duration-1000`}>
+                  <div className="absolute top-6 left-8 right-8 z-20">
+                    <div className={`bg-black/80 backdrop-blur-xl rounded-2xl px-8 py-4 border-2 ${colors.border} shadow-2xl transition-all duration-1000 transform hover:scale-105`}
+                      style={{ boxShadow: `0 0 30px ${colors.glow}` }}>
+                      <h2 className={`text-4xl font-bold ${colors.text} text-center tracking-wide drop-shadow-2xl transition-all duration-1000`}>
                         {currentScene.title}
                       </h2>
                     </div>
                   </div>
-                </div>
-
-                <div className="p-8 space-y-6 relative z-20">
-                  <div className={`bg-gradient-to-br ${colors.cardGradient} backdrop-blur-sm rounded-2xl p-6 border-2 ${colors.border} shadow-xl transition-all duration-1000`}>
-                    <p className={`${colorScheme === 'blue' ? 'text-blue-100' : colorScheme === 'red' ? 'text-red-100' : colorScheme === 'green' ? 'text-emerald-100' : 'text-amber-100'} text-lg leading-relaxed italic font-serif transition-all duration-1000`}>
-                      {currentScene.story}
-                    </p>
-                  </div>
-
-                  <p className={`${colorScheme === 'blue' ? 'text-blue-300' : colorScheme === 'red' ? 'text-red-300' : colorScheme === 'green' ? 'text-emerald-300' : 'text-amber-300'} text-center font-semibold text-lg transition-all duration-1000`}>
-                    {currentScene.description}
-                  </p>
-
-                  {currentScene.dialogText && (
-                    <div className={`relative bg-gradient-to-br ${
-                      colorScheme === 'blue' ? 'from-blue-50 to-blue-100 border-blue-700' :
-                      colorScheme === 'red' ? 'from-red-50 to-red-100 border-red-700' :
-                      colorScheme === 'green' ? 'from-emerald-50 to-emerald-100 border-emerald-700' :
-                      'from-amber-50 to-yellow-100 border-amber-700'
-                    } rounded-2xl p-5 border-3 shadow-2xl transition-all duration-1000`}>
-                      <div className={`absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-br ${
+                  <div className="absolute inset-x-8 bottom-8 z-20 space-y-5">
+                    <div className={`bg-black/65 backdrop-blur-xl rounded-2xl p-4 border-2 ${colors.border} shadow-2xl transition-all duration-1000 transform hover:scale-[1.02]`}
+                      style={{ boxShadow: `0 0 40px ${colors.glow}` }}>
+                      <p className={`${colorScheme === 'blue' ? 'text-blue-100' : colorScheme === 'red' ? 'text-red-100' : colorScheme === 'green' ? 'text-emerald-100' : 'text-amber-100'} text-xl leading-relaxed italic font-serif transition-all duration-1000`}>
+                        {currentScene.story}
+                      </p>
+                    </div>
+                    {currentScene.description && (
+                      <p className={`${colorScheme === 'blue' ? 'text-blue-300' : colorScheme === 'red' ? 'text-red-300' : colorScheme === 'green' ? 'text-emerald-300' : 'text-amber-300'} text-center font-semibold text-lg px-4 drop-shadow-lg transition-all duration-1000`}>
+                        {currentScene.description}
+                      </p>
+                    )}
+                    {currentScene.dialogText && (
+                      <div className={`relative bg-gradient-to-br ${
                         colorScheme === 'blue' ? 'from-blue-50 to-blue-100 border-blue-700' :
                         colorScheme === 'red' ? 'from-red-50 to-red-100 border-red-700' :
                         colorScheme === 'green' ? 'from-emerald-50 to-emerald-100 border-emerald-700' :
                         'from-amber-50 to-yellow-100 border-amber-700'
-                      } border-l-3 border-t-3 rotate-45 transition-all duration-1000`} />
-                      <p className="relative text-slate-900 text-center font-medium text-lg leading-relaxed">
-                        "{currentScene.dialogText}"
-                      </p>
-                      <div className="absolute -bottom-2 right-8 flex gap-1">
-                        <div className={`w-2 h-2 ${
-                          colorScheme === 'blue' ? 'bg-blue-700' :
-                          colorScheme === 'red' ? 'bg-red-700' :
-                          colorScheme === 'green' ? 'bg-emerald-700' :
-                          'bg-amber-700'
-                        } rounded-full animate-bounce transition-all duration-1000`} />
-                        <div className={`w-2 h-2 ${
-                          colorScheme === 'blue' ? 'bg-blue-700' :
-                          colorScheme === 'red' ? 'bg-red-700' :
-                          colorScheme === 'green' ? 'bg-emerald-700' :
-                          'bg-amber-700'
-                        } rounded-full animate-bounce transition-all duration-1000`} style={{ animationDelay: '0.1s' }} />
-                        <div className={`w-2 h-2 ${
-                          colorScheme === 'blue' ? 'bg-blue-700' :
-                          colorScheme === 'red' ? 'bg-red-700' :
-                          colorScheme === 'green' ? 'bg-emerald-700' :
-                          'bg-amber-700'
-                        } rounded-full animate-bounce transition-all duration-1000`} style={{ animationDelay: '0.2s' }} />
+                      } rounded-2xl p-6 border-3 shadow-2xl transition-all duration-1000 transform hover:scale-[1.02]`}>
+                        <div className={`absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gradient-to-br ${
+                          colorScheme === 'blue' ? 'from-blue-50 to-blue-100 border-blue-700' :
+                          colorScheme === 'red' ? 'from-red-50 to-red-100 border-red-700' :
+                          colorScheme === 'green' ? 'from-emerald-50 to-emerald-100 border-emerald-700' :
+                          'from-amber-50 to-yellow-100 border-amber-700'
+                        } border-l-3 border-t-3 rotate-45 transition-all duration-1000`} />
+                        <p className="relative text-slate-900 text-center font-medium text-lg leading-relaxed">
+                          "{currentScene.dialogText}"
+                        </p>
+                        <div className="absolute -bottom-2 right-8 flex gap-1">
+                          <div className={`w-2 h-2 ${
+                            colorScheme === 'blue' ? 'bg-blue-700' :
+                            colorScheme === 'red' ? 'bg-red-700' :
+                            colorScheme === 'green' ? 'bg-emerald-700' :
+                            'bg-amber-700'
+                          } rounded-full animate-bounce transition-all duration-1000`} />
+                          <div className={`w-2 h-2 ${
+                            colorScheme === 'blue' ? 'bg-blue-700' :
+                            colorScheme === 'red' ? 'bg-red-700' :
+                            colorScheme === 'green' ? 'bg-emerald-700' :
+                            'bg-amber-700'
+                          } rounded-full animate-bounce transition-all duration-1000`} style={{ animationDelay: '0.1s' }} />
+                          <div className={`w-2 h-2 ${
+                            colorScheme === 'blue' ? 'bg-blue-700' :
+                            colorScheme === 'red' ? 'bg-red-700' :
+                            colorScheme === 'green' ? 'bg-emerald-700' :
+                            'bg-amber-700'
+                          } rounded-full animate-bounce transition-all duration-1000`} style={{ animationDelay: '0.2s' }} />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  <button
-                    onClick={handleNext}
-                    className={`relative w-full bg-gradient-to-r ${
-                      colorScheme === 'blue' ? 'from-blue-600 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-400 hover:to-blue-500 border-blue-400 hover:shadow-blue-600/40' :
-                      colorScheme === 'red' ? 'from-red-600 via-red-500 to-red-600 hover:from-red-500 hover:via-red-400 hover:to-red-500 border-red-400 hover:shadow-red-600/40' :
-                      colorScheme === 'green' ? 'from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:via-emerald-400 hover:to-emerald-500 border-emerald-400 hover:shadow-emerald-600/40' :
-                      'from-amber-600 via-yellow-500 to-amber-600 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-500 border-amber-400 hover:shadow-amber-600/40'
-                    } text-slate-950 font-bold py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl active:scale-95 flex items-center justify-center gap-3 border-3 shadow-xl overflow-hidden group`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                    {currentScene.isUnlock && <Unlock className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
-                    <span className="text-xl relative z-10">{currentScene.buttonText}</span>
-                    <ChevronRight className="w-7 h-7 group-hover:translate-x-2 transition-transform relative z-10" />
-                  </button>
+               
+                    <button
+                      onClick={handleNext}
+                      className={`relative w-full bg-gradient-to-r ${
+                        colorScheme === 'blue' ? 'from-blue-600 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-400 hover:to-blue-500 border-blue-400 hover:shadow-blue-600/40' :
+                        colorScheme === 'red' ? 'from-red-600 via-red-500 to-red-600 hover:from-red-500 hover:via-red-400 hover:to-red-500 border-red-400 hover:shadow-red-600/40' :
+                        colorScheme === 'green' ? 'from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:via-emerald-400 hover:to-emerald-500 border-emerald-400 hover:shadow-emerald-600/40' :
+                        'from-amber-600 via-yellow-500 to-amber-600 hover:from-amber-500 hover:via-yellow-400 hover:to-amber-500 border-amber-400 hover:shadow-amber-600/40'
+                      } text-slate-950 font-bold py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl active:scale-95 flex items-center justify-center gap-3 border-3 shadow-xl overflow-hidden group`}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                      {currentScene.isUnlock && <Unlock className="w-7 h-7 group-hover:rotate-12 transition-transform" />}
+                      <span className="text-xl relative z-10">{currentScene.buttonText}</span>
+                      <ChevronRight className="w-7 h-7 group-hover:translate-x-2 transition-transform relative z-10" />
+                    </button>
 
-                  {isLastScene && (
-                    <div className="flex items-center justify-center gap-2">
-                      <div className={`w-2 h-2 ${colors.text.replace('text-', 'bg-')} rounded-full animate-ping`} />
-                      <p className={`${colors.text}/70 text-sm text-center animate-pulse`}>
-                        Click to restart your adventure
-                      </p>
-                      <div className={`w-2 h-2 ${colors.text.replace('text-', 'bg-')} rounded-full animate-ping`} />
-                    </div>
-                  )}
+                
+                    {isLastScene && (
+                      <div className="flex items-center justify-center gap-2 bg-black/60 backdrop-blur-md rounded-full py-3 px-6">
+                        <div className={`w-2 h-2 ${colors.text.replace('text-', 'bg-')} rounded-full animate-ping`} />
+                        <p className={`${colors.text} text-sm text-center animate-pulse font-medium`}>
+                          Click to restart your adventure
+                        </p>
+                        <div className={`w-2 h-2 ${colors.text.replace('text-', 'bg-')} rounded-full animate-ping`} />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </>
             )}
