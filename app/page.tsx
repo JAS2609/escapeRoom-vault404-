@@ -5,6 +5,8 @@ import MiniGame1 from '../puzzles/difference/diff';
 import MiniGame2 from '../puzzles/maze/maze';
 import MiniGame3 from '../puzzles/findtheheart/heart';
 import MiniGame4 from '../puzzles/finalcode/finalcode';
+import Image from "next/image";
+
 // const scenes = [
 //   {
 //     id: 1,
@@ -310,7 +312,7 @@ const scenes = [
   {
     id: 13,
     title: "Letter",
-    image: "/Scene13.png?fit=crop&w=800&h=600",
+    image: "/Scene13.png",
     story: "read carefully.",
     description: "",
     buttonText: "continue",
@@ -374,6 +376,8 @@ const EscapeRoom = () => {
   const [isLaserActive, setIsLaserActive] = useState(false);
   const [colorScheme, setColorScheme] = useState<'blue' | 'red' | 'green' | 'golden'>('blue');
   const currentScene = scenes[currentSceneIndex];
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const isLastScene = currentSceneIndex === scenes.length - 1;
   const [particles, setParticles] = useState<
     { left: string; top: string; delay: string; duration: string }[]
@@ -389,6 +393,15 @@ const EscapeRoom = () => {
       }))
     );
   }, []);
+  useEffect(() => {
+  const next = scenes[currentSceneIndex + 1];
+  if (!next?.image) return;
+
+  const img = new window.Image();
+  img.src = next.image;
+  setImageLoaded(false)
+}, [currentSceneIndex]);
+
 
   const createBackgroundMusic = () => {
     try {
@@ -829,11 +842,21 @@ const EscapeRoom = () => {
               <>
                 <div className="relative min-h-[700px] overflow-hidden">
                
-                  <img 
-                    src={currentScene.image} 
+                 <Image
+                    key={currentScene.image}
+                    src={currentScene.image}
                     alt={currentScene.title}
-                    className="absolute inset-0 w-full h-full object-cover transform hover:scale-105 transition-transform duration-1000 ease-out"
+                    fill
+                    priority={currentSceneIndex === 0}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 768px"
+                    onLoad={() => setImageLoaded(true)}
+                    className={`object-cover transition-opacity duration-700 ease-in-out ${
+                      imageLoaded ? "opacity-100" : "opacity-0"
+                    }`}
                   />
+
+
+
                   
                   <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
