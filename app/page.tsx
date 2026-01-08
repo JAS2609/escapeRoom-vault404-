@@ -300,17 +300,30 @@ const scenes = [
     image: "/Scene12.png",
     story: "One last step remains.",
     description: "",
-    buttonText: "Enter Code",
+    buttonText: "Open letter",
     dialogText: null,
+    layout: "single",
+    isUnlock: false,
+    gameComponent:null,
+    answer: null
+  },
+  {
+    id: 13,
+    title: "Letter",
+    image: "/Scene13.png?fit=crop&w=800&h=600",
+    story: "read carefully.",
+    description: "",
+    buttonText: "continue",
+    dialogText: "",
     layout: "single",
     isUnlock: true,
     gameComponent: MiniGame4,
     answer: null
   },
   {
-    id: 13,
+    id: 14,
     title: "Identity Confirmed",
-    image: "/Scene13.png",
+    image: "/Scene14.png",
     story: "This was always meant for you.",
     description: "",
     buttonText: "Open",
@@ -321,26 +334,26 @@ const scenes = [
     answer: null
   },
   {
-    id: 14,
+    id: 15,
     title: "The Message",
-    image: "https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800&h=600&fit=crop",
-    story: "A floating holographic screen appears, showing a video thumbnail. Soft light orbs drift around it.",
-    description: "They've been waiting for this moment.",
+    image: "/Scene15.png",
+    story: "They've been waiting for this moment.",
+    description: "",
     buttonText: "Play Message",
-    dialogText: "Some messages are worth the journey.",
+    dialogText: "",
     layout: "single",
     isUnlock: false,
     gameComponent: null,
     answer: null
   },
   {
-    id: 15,
+    id: 16,
     title: "Vault 404 Complete",
-    image: "https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800&h=600&fit=crop",
-    story: "The message plays. Intimate. Emotional. Personal. A memory locked away, now revealed. You were meant to find this.",
-    description: "The vault was designed for you.",
+    image: "/Scene16.png",
+    story: "The vault was designed for you.",
+    description: "",
     buttonText: "Restart Journey",
-    dialogText: "This was not breaking in. This was recognition.",
+    dialogText: "",
     layout: "single",
     isUnlock: false,
     gameComponent: null,
@@ -836,7 +849,7 @@ const EscapeRoom = () => {
                   <div className="absolute inset-x-8 bottom-8 z-20 space-y-5">
                     <div className={`bg-black/65 backdrop-blur-xl rounded-2xl p-4 border-2 ${colors.border} shadow-2xl transition-all duration-1000 transform hover:scale-[1.02]`}
                       style={{ boxShadow: `0 0 40px ${colors.glow}` }}>
-                      <p className={`${colorScheme === 'blue' ? 'text-blue-100' : colorScheme === 'red' ? 'text-red-100' : colorScheme === 'green' ? 'text-emerald-100' : 'text-amber-100'} text-xl leading-relaxed italic font-serif transition-all duration-1000`}>
+                      <p className={`text-center ${colorScheme === 'blue' ? 'text-blue-100' : colorScheme === 'red' ? 'text-red-100' : colorScheme === 'green' ? 'text-emerald-100' : 'text-amber-100'} text-xl leading-relaxed italic font-serif transition-all duration-1000`}>
                         {currentScene.story}
                       </p>
                     </div>
