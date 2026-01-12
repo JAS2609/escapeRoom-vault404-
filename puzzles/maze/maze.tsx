@@ -198,7 +198,7 @@ const handlePressEnd = () => {
   const heldTime = Date.now() - pressStartTime.current;
   const { dx, dy } = pressDir.current;
 
-  if (heldTime >= 1000) {
+  if (heldTime >= 500) {
     moveUntilBlocked(dx, dy); 
   }
   
