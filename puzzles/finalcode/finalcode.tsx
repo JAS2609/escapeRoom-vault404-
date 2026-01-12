@@ -7,6 +7,7 @@ function MiniGame4({ onComplete }: { onComplete: () => void }): JSX.Element {
   const [showHints, setShowHints] = useState(false);
   const [isWrong, setIsWrong] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const hints = [
     {
@@ -31,27 +32,38 @@ function MiniGame4({ onComplete }: { onComplete: () => void }): JSX.Element {
   ];
   const correctCode = hints.map(h => h.answer[0].toUpperCase());
 
-  const handleLetterChange = (index: number, value: string) => {
-    const newCode = [...userCode];
-    newCode[index] = value.toUpperCase().slice(0, 1);
-    setUserCode(newCode);
-  };
+const handleSubmit = () => {
+  const isCorrect = userCode.every((letter, idx) => letter === correctCode[idx]);
+  if (isCorrect) {
+    setTimeout(() => {
+      onComplete();
+    }, 1000);
+  } else {
+    setAttempts(prev => prev + 1);
+    setIsWrong(true);
+    setTimeout(() => setIsWrong(false), 500);
+  }
+};
 
-  const handleSubmit = () => {
-    const isCorrect = userCode.every((letter, idx) => letter === correctCode[idx]);
-    
-    if (isCorrect) {
-      setTimeout(() => {
-        onComplete();
-      }, 1000);
-    } else {
-      setAttempts(prev => prev + 1);
-      setIsWrong(true);
-      setTimeout(() => setIsWrong(false), 500);
-    }
-  };
+const isComplete = userCode.every(letter => letter !== '');
+const handleLetterChange = (index: number, value: string) => {
+  const newCode = [...userCode];
+  const char = value.toUpperCase().slice(0, 1);
+  newCode[index] = char;
+  setUserCode(newCode);
+  if (char && index < inputRefs.current.length - 1) {
+    inputRefs.current[index + 1]?.focus();
+  }
+};
+const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === 'Backspace' && !userCode[index] && index > 0) {
+    inputRefs.current[index - 1]?.focus();
+  }
+  if (e.key === 'Enter' && isComplete) {
+    handleSubmit();
+  }
+};
 
-  const isComplete = userCode.every(letter => letter !== '');
 
   return (
     <div className="flex flex-col h-full p-6 space-y-4 overflow-y-auto">
@@ -73,10 +85,12 @@ function MiniGame4({ onComplete }: { onComplete: () => void }): JSX.Element {
           <div key={idx} className="flex flex-col items-center gap-2">
             <div className="text-yellow-400 font-bold text-xs md:text-sm">#{idx + 1}</div>
             <input
-              type="text"
+            ref={(el) => { inputRefs.current[idx] = el; }}
+              type="numeric"
               maxLength={1}
               value={letter}
-              onChange={(e) => handleLetterChange(idx, e.target.value)}
+             onChange={(e) => handleLetterChange(idx, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(idx, e)}
               className={`w-14 h-14 md:w-16 md:h-16 text-center text-3xl md:text-4xl font-bold bg-gradient-to-br from-amber-800 to-amber-900 text-yellow-400 border-3 rounded-xl shadow-xl focus:outline-none focus:ring-4 focus:ring-yellow-500 uppercase transition-all ${
                 isWrong ? 'border-red-500 ring-4 ring-red-500/50' : 'border-yellow-600'
               }`}

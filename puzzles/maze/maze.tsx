@@ -187,7 +187,6 @@ const moveUntilBlocked = (dx: number, dy: number) => {
 
   setPosition({ x, y });
 };
-
 const handlePressStart = (dx: number, dy: number) => {
   pressStartTime.current = Date.now();
   pressDir.current = { dx, dy };
@@ -199,15 +198,15 @@ const handlePressEnd = () => {
   const heldTime = Date.now() - pressStartTime.current;
   const { dx, dy } = pressDir.current;
 
-  if (heldTime >= 1500) {
-    moveUntilBlocked(dx, dy);  // long press
-  } else {
-    handleMove(dx, dy);        // short press
+  if (heldTime >= 1000) {
+    moveUntilBlocked(dx, dy); 
   }
+  
 
   pressStartTime.current = null;
   pressDir.current = null;
 };
+
 
 useEffect(() => {
   return () => {
@@ -219,7 +218,7 @@ useEffect(() => {
 
 
 return (
-    <div className="min-h-[600px] flex flex-col p-6 space-y-4 bg-gradient-to-br from-slate-900 to-blue-950">
+    <div className="min-h-[calc(100vh-2rem)]  flex flex-col p-6 space-y-4 bg-gradient-to-br from-slate-900 to-blue-950">
       <div className="text-center space-y-2">
         <h3 className="text-2xl md:text-3xl font-bold text-cyan-400 tracking-wide drop-shadow-lg">Navigate the Recognition</h3>
         <div className="flex items-center justify-center gap-4 text-cyan-200 text-sm">
