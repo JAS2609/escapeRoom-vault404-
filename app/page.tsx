@@ -787,7 +787,7 @@ const EscapeRoom = () => {
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className={`w-full max-w-2xl transition-all duration-700 transform ${
+        <div className={`w-full absolute top-0 bottom-0 max-w-2xl transition-all duration-700 transform ${
           isTransitioning ? 'opacity-0 scale-90 blur-md rotate-2' : 'opacity-100 scale-100 blur-0 rotate-0'
         }`}>
           <div 
@@ -835,12 +835,13 @@ const EscapeRoom = () => {
             <div className={`absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 ${colors.border} rounded-br-3xl animate-pulse transition-all duration-1000`} style={{ animationDelay: '1.5s' }} />
 
             {showGame && GameComponent ? (
-              <div className={`min-h-[600px] bg-gradient-to-br ${colors.cardGradient} transition-all duration-1000`}>
+              <div className={`min-h-[calc(100vh-2rem)] bg-gradient-to-br ${colors.cardGradient} transition-all duration-1000`}>
                 <GameComponent onComplete={handleGameComplete} />
               </div>
             ) : (
               <>
-                <div className="relative min-h-[700px] overflow-hidden">
+               <div className="relative min-h-[calc(100vh-2rem)] overflow-hidden">
+
                
                  <Image
                     key={currentScene.image}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useMemo } from 'react';
+import React, { useState, useEffect,useMemo,useRef } from 'react';
 
 const COLS = 27;
 const ROWS = 37;
@@ -11,6 +11,9 @@ const MazeGame = ({ onComplete }: { onComplete: () => void }) => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+const pressStartTime = useRef<number | null>(null);
+const pressDir = useRef<{ dx: number; dy: number } | null>(null);
+
   const getCellSize = () => {
   if (window.innerWidth < 500) return 10;  
   if (window.innerWidth < 768) return 12;   
@@ -159,6 +162,62 @@ const maze = useMemo(() => generateMaze(), []);
 
     setTouchStart(null);
   };
+const moveUntilBlocked = (dx: number, dy: number) => {
+  let x = position.x;
+  let y = position.y;
+
+  while (true) {
+    const nx = x + dx;
+    const ny = y + dy;
+
+    if (
+      nx < 0 || nx >= COLS ||
+      ny < 0 || ny >= ROWS ||
+      maze[ny][nx] === 1
+    ) break;
+
+    x = nx;
+    y = ny;
+
+    if (maze[ny][nx] === 3) {
+      onComplete();
+      break;
+    }
+  }
+
+  setPosition({ x, y });
+};
+
+const handlePressStart = (dx: number, dy: number) => {
+  pressStartTime.current = Date.now();
+  pressDir.current = { dx, dy };
+};
+
+const handlePressEnd = () => {
+  if (!pressStartTime.current || !pressDir.current) return;
+
+  const heldTime = Date.now() - pressStartTime.current;
+  const { dx, dy } = pressDir.current;
+
+  if (heldTime >= 1500) {
+    moveUntilBlocked(dx, dy);  // long press
+  } else {
+    handleMove(dx, dy);        // short press
+  }
+
+  pressStartTime.current = null;
+  pressDir.current = null;
+};
+
+useEffect(() => {
+  return () => {
+    pressStartTime.current = null;
+    pressDir.current = null;
+  };
+}, []);
+
+
+
 return (
     <div className="min-h-[600px] flex flex-col p-6 space-y-4 bg-gradient-to-br from-slate-900 to-blue-950">
       <div className="text-center space-y-2">
@@ -284,28 +343,48 @@ return (
         </div>
         <div className="flex flex-col items-center gap-1.5">
           <button 
-            onClick={() => handleMove(0, -1)} 
+            onClick={() => handleMove(0, -1)}    
+            onMouseDown={() => handlePressStart(0, -1)}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={() => handlePressStart(0, -1)}
+            onTouchEnd={handlePressEnd}
             className="w-14 h-14 bg-gradient-to-br from-cyan-600 via-blue-700 to-slate-800 hover:from-cyan-500 hover:via-blue-600 hover:to-slate-700 rounded-xl border-2 border-cyan-500/40 text-cyan-300 text-3xl font-bold shadow-xl shadow-cyan-500/30 active:scale-95 transition-all hover:shadow-cyan-400/50 hover:border-cyan-400/60"
           >
             ↑
           </button>
           <div className="flex gap-1.5">
             <button 
-              onClick={() => handleMove(-1, 0)} 
+               onClick={() => handleMove(-1, 0)}    
+            onMouseDown={() => handlePressStart(-1, 0)}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={() => handlePressStart(-1, 0)}
+            onTouchEnd={handlePressEnd} 
               className="w-14 h-14 bg-gradient-to-br from-cyan-600 via-blue-700 to-slate-800 hover:from-cyan-500 hover:via-blue-600 hover:to-slate-700 rounded-xl border-2 border-cyan-500/40 text-cyan-300 text-3xl font-bold shadow-xl shadow-cyan-500/30 active:scale-95 transition-all hover:shadow-cyan-400/50 hover:border-cyan-400/60"
             >
               ←
             </button>
             <div className="w-14 h-14" />
             <button 
-              onClick={() => handleMove(1, 0)} 
+               onClick={() => handleMove(1, 0)}    
+             onMouseDown={() => handlePressStart(1, 0)}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={() => handlePressStart(1, 0)}
+            onTouchEnd={handlePressEnd}
               className="w-14 h-14 bg-gradient-to-br from-cyan-600 via-blue-700 to-slate-800 hover:from-cyan-500 hover:via-blue-600 hover:to-slate-700 rounded-xl border-2 border-cyan-500/40 text-cyan-300 text-3xl font-bold shadow-xl shadow-cyan-500/30 active:scale-95 transition-all hover:shadow-cyan-400/50 hover:border-cyan-400/60"
             >
               →
             </button>
           </div>
           <button 
-            onClick={() => handleMove(0, 1)} 
+            onClick={() => handleMove(0, 1)}    
+            onMouseDown={() => handlePressStart(0, 1)}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={() => handlePressStart(0, 1)}
+            onTouchEnd={handlePressEnd} 
             className="w-14 h-14 bg-gradient-to-br from-cyan-600 via-blue-700 to-slate-800 hover:from-cyan-500 hover:via-blue-600 hover:to-slate-700 rounded-xl border-2 border-cyan-500/40 text-cyan-300 text-3xl font-bold shadow-xl shadow-cyan-500/30 active:scale-95 transition-all hover:shadow-cyan-400/50 hover:border-cyan-400/60"
           >
             ↓
