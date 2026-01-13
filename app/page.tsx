@@ -787,7 +787,7 @@ const EscapeRoom = () => {
       </div>
 
       <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-        <div className={`w-full absolute top-0 bottom-0 max-w-2xl transition-all duration-700 transform ${
+        <div className={`w-full absolute top-0 md:static md:top-auto md:transform-none  max-w-2xl transition-all duration-700 transform ${
           isTransitioning ? 'opacity-0 scale-90 blur-md rotate-2' : 'opacity-100 scale-100 blur-0 rotate-0'
         }`}>
           <div 
